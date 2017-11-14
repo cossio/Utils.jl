@@ -10,10 +10,14 @@ end
 
 
 "x*log(x) that gives zero when x = 0"
-function xlogx(x)
-    x ≥ 0 || DomainError()
-    x == 0 ? zero(log(x)) : x * log(x)
+xlogx(x::Float64) = xlogy(x,x)
+
+"x*log(y) that gives zero when x = y = 0"
+function xlogy(x::Float64,y::Float64)
+    y ≥ 0 || DomainError()
+    x == 0 ? 0. : x * log(y)
 end
+
 
 
 end # module
