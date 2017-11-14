@@ -9,6 +9,11 @@ function sumt(::Type{T}, itr)::T where T
 end
 
 
+"x*log(x) that gives zero when x = 0"
+function xlogx(x)
+    x ≥ 0 || DomainError()
+    x == 0 ? zero(log(x)) : x * log(x)
+end
 
 
 end # module
