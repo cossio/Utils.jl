@@ -9,6 +9,12 @@ function sumt(::Type{T}, itr)::T where T
 end
 
 
+"safe typed prod. Returns correct one of correct type when iterator is empty."
+function prodt(::Type{T}, itr)::T where T
+    isempty(itr) ? one(T) : prod(x::T for x in itr)::T
+end
+
+
 "x*log(x) that gives zero when x = 0"
 xlogx(x::Float64) = xlogy(x,x)
 
