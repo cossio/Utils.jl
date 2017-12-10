@@ -1,6 +1,6 @@
 module Utils
 
-export sumt
+export sumt, prodt, xlogx, randin
 
 
 "safe typed sum. Returns correct zero of correct type when iterator is empty."
@@ -25,6 +25,12 @@ function xlogy(x::Float64,y::Float64)
     x == 0 ? 0. : x * log(y)
 end
 
+
+"random number between a and b"
+function randin(a::Real, b::Real)
+    -Inf < a ≤ b < Inf || DomainError()
+    a + (b - a) * rand()
+end
 
 
 end # module
