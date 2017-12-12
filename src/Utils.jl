@@ -33,4 +33,8 @@ function randin(a::Real, b::Real)
 end
 
 
+"Remove extension from file path"
+removeExtension(path::String) = first(Base.Filesystem.splitext(path))
+
+
 end # module
