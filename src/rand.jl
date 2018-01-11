@@ -25,7 +25,22 @@ end
 
 """
 Returns a random vector x = (x1, x2, ..., xn), such that
-xi ≥ 0 and sum(xi) = 1.
+xi ≥ 0 and sum(xi) = 1
 """
-randsimplex(n::Int) = diff(sort([0; rand(n - 1); 1])) 
-# https://cs.stackexchange.com/questions/3227/uniform-sampling-from-a-simplex
+function randsimplex(n::Int) 
+    # https://cs.stackexchange.com/questions/3227/uniform-sampling-from-a-simplex
+    @assert n > 0
+    diff(sort([0; rand(n - 1); 1]))
+end
+
+
+"""
+Returns a random vector x = x0 * v[0] + x1 * v[1] + ... + xn * v[n]
+where xi ≥ 0 and sum(xi) = 1
+"""
+function randsimplex(v::Vector{Vector{Float64}})
+    n = length(v) - 1
+    @assert n ≥ 0 && all(length.(v) .== n)
+    x = randsimplex(n)
+    sum(x[i]*v[i] for i = 1:n)
+end
