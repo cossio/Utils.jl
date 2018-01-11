@@ -21,3 +21,11 @@ function wrand(weights)
     end
 end
 
+
+
+"""
+Returns a random vector x = (x1, x2, ..., xn), such that
+xi ≥ 0 and sum(xi) = 1.
+"""
+randsimplex(n::Int) = diff(sort([0; rand(n - 1); 1])) 
+# https://cs.stackexchange.com/questions/3227/uniform-sampling-from-a-simplex
