@@ -8,6 +8,7 @@ end
 """
 Weighted random integer.
 Given weights = (w1, w2, ...), returns a random integer i with probability proportional to w_i.
+The weights should be 0 ≤ w_i < ∞, and do not need to sum to 1.
 """
 function wrand(weights)
     wr = rand() * sum(w for w in weights)
