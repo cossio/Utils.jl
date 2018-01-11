@@ -38,9 +38,8 @@ end
 Returns a random vector x = x0 * v[0] + x1 * v[1] + ... + xn * v[n]
 where xi ≥ 0 and sum(xi) = 1
 """
-function randsimplex(v::Vector{Vector{Float64}})
-    n = length(v) - 1
-    @assert n ≥ 0 && all(length.(v) .== n)
-    x = randsimplex(n)
-    sum(x[i]*v[i] for i = 1:n)
+function randsimplex(V::Vector{Vector{Float64}})
+    @assert allsame(length.(V))
+    X = randsimplex(length(V))
+    sum(x*v for (x,v) in zip(X,V))
 end

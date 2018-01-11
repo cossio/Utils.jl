@@ -22,3 +22,11 @@ function xlogy(x::Float64,y::Float64)
     y ≥ 0 || DomainError()
     x == 0 ? 0. : x * log(y)
 end
+
+
+"Volume of a simplex with vertices in V"
+function simplexvol(V::Vector{Vector{Float64}})
+    n = length(V) - 1
+    @assert all(length.(V) .== n)
+    abs(det(hcat((V[i] - V[end] for i = 1:n)...))) / factorial(n)
+end
