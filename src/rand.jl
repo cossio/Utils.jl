@@ -7,7 +7,7 @@ end
 
 """
 Weighted random integer.
-Given weights weights = (w1, w2, ...), returns a random integer i with probability proportional to w_i.
+Given weights = (w1, w2, ...), returns a random integer i with probability proportional to w_i.
 """
 function wrand(weights)
     wr = rand() * sum(w for w in weights)
