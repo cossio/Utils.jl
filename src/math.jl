@@ -30,3 +30,10 @@ function simplexvol(V::Vector{Vector{Float64}})
     @assert all(length.(V) .== n)
     abs(det(hcat((V[i] - V[end] for i = 1:n)...))) / factorial(n)
 end
+
+
+"log of binomial coefficient"
+function lbinomial(i::Real, j::Real)
+    0 ≤ i < Inf && 0 ≤ j < Inf || throw(DomainError())
+    lgamma(i + 1) - lgamma(j + 1) - lgamma(i - j + 1)
+end
