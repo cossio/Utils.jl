@@ -1,17 +1,21 @@
 import Combinatorics
 
-
 """
-If M has a kernel vector with nz nonzeros, returns
+For every kernel vector of M with nz nonzeros, returns
 a vector [i1, ..., inz] of the  indices of the nonzero
-entries. Else returns a vector of zeros.
+entries. Thus returns an array of these index vectors.
+Returns at most 'count' index vectors. 
+If 'count' is negative, finds all.
 """
-function kernelnz(M::Matrix, nz::Integer)
-    @assert size(M, 1) == size(M, 2) && 0 < nz ≤ size(M, 1)
+function kernelnz(M::Matrix, nz::Integer; count::Integer = 1)
+    @assert size(M, 1) == size(M, 2)
+    @assert 0 < nz ≤ size(M, 1)
+    ker = Vector{Vector{Int}}()
     for c in Combinatorics.combinations(1 : size(M, 1), nz)
+        0 ≤ count ≤ length(ker) && break
         if rank(M[c,c]) < nz
-            return c
+            push!(ker, c)
         end
     end
-    return zeros(Int, nz)
+    return ker
 end
