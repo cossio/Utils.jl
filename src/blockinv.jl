@@ -14,14 +14,30 @@ Arguments:
 function blockinv end
 
 function blockinv(iM::AbstractMatrix, i)
-    @assert allunique(i) && all(1 .≤ i .≤ size(iM, 1))
     o = setdiff(1 : size(iM, 1), i)
     blockinv(iM, i, inv(iM[o,o]))
+end
+
+function blockinv(iM::Hermitian, i)::Hermitian
+    o = setdiff(1 : size(iM, 1), i)
+    blockinv(iM, i, inv(Hermitian(iM[o,o])))
+end
+
+function blockinv(iM::Hermitian, i, iA::Hermitian)::Hermitian
+    @assert allunique(i) && all(1 .≤ i .≤ size(iM, 1))
+    o = setdiff(1 : size(iM, 1), i)
+    @assert size(iA) == (length(o), length(o))
+
+    B = iM[o,i]
+    D = Hermitian(iM[i,i])
+
+    Hermitian(D - Hermitian(B' * iA * B))
 end
 
 function blockinv(iM::AbstractMatrix, i, iA::AbstractMatrix)
     @assert allunique(i) && all(1 .≤ i .≤ size(iM, 1))
     o = setdiff(1 : size(iM, 1), i)
+    @assert size(iA) == (length(o), length(o))
     
     B = iM[o,i]
     C = iM[i,o]
