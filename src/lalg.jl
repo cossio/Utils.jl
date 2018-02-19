@@ -35,3 +35,22 @@ function transpoflip(A::Matrix)
     N = size(A, 1)
     B = [A[N + 1 - j, N + 1 - i] for i = 1 : N, j = 1 : N]
 end
+
+
+"""
+Given the inverse matrix iM = [A B; C D] of a matrix M = [U V; W X]
+(in block form), this returns inv(X). This is efficient if 
+dim(A) ≪ dim(X). The indices `i`  (an iterator of integers) 
+determine the sub-matrices U and A.
+"""
+function blockinv(iM::Matrix, i)
+    @assert allunique(i) && all(1 .≤ i .≤ size(iM, 1))
+    o = setdiff(1 : size(iM, 1), i)
+
+    A = iM[i,i]
+    B = iM[i,o]
+    C = iM[o,i]
+    D = iM[o,o]
+
+    D - C * inv(A) * B
+end
