@@ -41,16 +41,16 @@ end
 Given the inverse matrix iM = [A B; C D] of a matrix M = [U V; W X]
 (in block form), this returns inv(X). This is efficient if 
 dim(A) ≪ dim(X). The indices `i`  (an iterator of integers) 
-determine the sub-matrices U and A.
+determine the sub-matrix X = M[i,i].
 """
 function blockinv(iM::Matrix, i)
     @assert allunique(i) && all(1 .≤ i .≤ size(iM, 1))
     o = setdiff(1 : size(iM, 1), i)
 
-    A = iM[i,i]
-    B = iM[i,o]
-    C = iM[o,i]
-    D = iM[o,o]
+    A = iM[o,o]
+    B = iM[o,i]
+    C = iM[i,o]
+    D = iM[i,i]
 
     D - C * inv(A) * B
 end
