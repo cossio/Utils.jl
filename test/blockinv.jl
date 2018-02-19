@@ -22,7 +22,8 @@
     n = 6
     i = Int(n/2) + 1 : n
     for rep = 1 : 10
-        M = Hermitian(rand(n, n))
+        M = rand(n, n)
+        M = Hermitian(0.5M + 0.5M')
         if abs(det(M)) > 1e-6 && abs(det(M[i,i])) > 1e-6
             if !(blockinv(inv(M), i) ≈ inv(M[i,i]))
                 @show M
