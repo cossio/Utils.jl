@@ -1,9 +1,14 @@
 
 @testset "blockinv" begin
-    M = [1 2 3; 3 5 6; 7 8 9]
+    M = [1 2 3; 
+         3 5 6; 
+         7 8 9]
     @test blockinv(inv(M), [3]) ≈ [1/9]
 
-    M = [1 2 12 1; 5 6 7 3; 9 10 11 12; 13 14 15 16];
+    M = [1 2 12 1; 
+         5 6 7 3; 
+         9 10 11 12; 
+         13 14 15 16];
     @test blockinv(inv(M), [3,4]) ≈ inv(M[[3,4], [3,4]])
     @test blockinv(inv(M), [4,3]) ≈ inv(M[[4,3], [4,3]])
 
@@ -29,7 +34,7 @@
                 @show M
             end
             @test blockinv(inv(M), i) ≈ inv(M[i,i])
-            @test typeof(blockinv(inv(M), i)) <: Hermitian
+            @test blockinv(inv(M), i) isa Hermitian
         end
     end
 end
