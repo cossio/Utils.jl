@@ -35,3 +35,19 @@ function transpoflip(A::Matrix)
     N = size(A, 1)
     B = [A[N + 1 - j, N + 1 - i] for i = 1 : N, j = 1 : N]
 end
+
+
+
+"""
+Given the inverse A of a matrix M, returns the inverse matrix
+of the matrix M', which differs from M only in the n,n entry
+for which M'[n,n] = M[n,n] + δ. Uses the Sherman-Morrison-Woodbury 
+formula. See D.S. Bernestein, Matrix Mathematics 2009, Fact 2.16.3.
+"""
+function invupdate(A::AbstractMatrix, n::Integer, δ::Real)
+    B = copy(A)
+    for i = 1 : size(A, 1), j = 1 : size(A, 2)
+        B[i,j] = A[i,j] - δ * A[i,n] * A[n,j] / (1 + δ * A[n,n])
+    end
+    return B
+end

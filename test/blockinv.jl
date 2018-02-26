@@ -23,7 +23,7 @@
             @test blockinv(inv(M), i) ≈ inv(M[i,i])
         end
     end
-
+    
     n = 6
     i = Int(n/2) + 1 : n
     for rep = 1 : 10
