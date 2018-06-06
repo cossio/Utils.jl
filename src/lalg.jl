@@ -40,14 +40,25 @@ end
 
 """
 Given the inverse A of a matrix M, returns the inverse matrix
-of the matrix M', which differs from M only in the n,n entry
-for which M'[n,n] = M[n,n] + δ. Uses the Sherman-Morrison-Woodbury 
+of the matrix M', which differs from M only in n'th diagonal
+entry, for which M'[n,n] = M[n,n] + δ. Uses the Sherman-Morrison-Woodbury 
 formula. See D.S. Bernestein, Matrix Mathematics 2009, Fact 2.16.3.
 """
+function invupdate end
+
 function invupdate(A::AbstractMatrix, n::Integer, δ::Real)
     B = copy(A)
     for i = 1 : size(A, 1), j = 1 : size(A, 2)
         B[i,j] = A[i,j] - δ * A[i,n] * A[n,j] / (1 + δ * A[n,n])
+    end
+    return B
+end
+
+function invupdate(A::Hermitian, n::Integer, δ::Real)
+    B = copy(A)
+    for i = 1 : size(A, 1), j = 1 : i
+        Bij = A[i,j] - δ * A[i,n] * A[n,j] / (1 + δ * A[n,n])
+        B.data[i,j] = B.data[j,i]= Bij
     end
     return B
 end

@@ -15,13 +15,23 @@ end
 
 @testset "invupdate" begin
     for rep = 1 : 100
-        X = rand(5,5);
-        M = X' * X;
-        iM = inv(M)
+        X = rand(5,5); M = X' * X; iM = inv(M)
         n = rand(1:5); δ = 5(rand() - 0.5)
-        M2 = copy(M); M2[n,n] += δ
-        iM2 = inv(M2);
+        M2 = copy(M); M2[n,n] += δ;
+        if isposdef(M) && abs(δ * iM[n,n] + 1) > 1e-3
+            @test Utils.invupdate(iM, n, δ) ≈ inv(M2)
+        end
+    end
+end
 
-        @assert Utils.invupdate(iM, n, δ) ≈ iM2
+@testset "invupdate Hermitian" begin
+    for rep = 1 : 100
+        X = rand(5,5); M = Hermitian(X' * X); iM = inv(M)
+        n = rand(1:5); δ = 5(rand() - 0.5)
+        M2 = copy(M); M2[n,n] += δ;
+        if isposdef(M) && abs(δ * iM[n,n] + 1) > 1e-3
+            @test Utils.invupdate(iM, n, δ) ≈ inv(M2)
+            @test Utils.invupdate(iM, n, δ) isa Hermitian
+        end
     end
 end
