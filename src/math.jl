@@ -14,11 +14,12 @@ end
 
 
 "x*log(x) that gives zero when x = 0"
-xlogx(x::Float64) = xlogy(x,x)
+xlogx(x::Float64) = (warn("Use StatsFuns.xlogy instead"); xlogy(x,x))
 
 
 "x*log(y) that gives zero when x = y = 0"
 function xlogy(x::Float64,y::Float64)
+    warn("Use StatsFuns.xlogy instead")
     y ≥ 0 || DomainError()
     x == 0 ? 0. : x * log(y)
 end
