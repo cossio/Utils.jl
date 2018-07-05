@@ -13,13 +13,12 @@ function prodt(::Type{T}, itr)::T where T
 end
 
 
-"x*log(x) that gives zero when x = 0"
+"x*log(x) that gives zero when x = 0. In the future use StatsFuns.xlogx instead"
 xlogx(x::Float64) = (warn("Use StatsFuns.xlogy instead"); xlogy(x,x))
 
 
-"x*log(y) that gives zero when x = y = 0"
+"x*log(y) that gives zero when x = y = 0. In the future use StatsFuns.xlogy instead"
 function xlogy(x::Float64,y::Float64)
-    warn("Use StatsFuns.xlogy instead")
     y ≥ 0 || DomainError()
     x == 0 ? 0. : x * log(y)
 end
